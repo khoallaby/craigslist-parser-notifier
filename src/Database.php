@@ -7,6 +7,7 @@ use MysqliDb, dbObject;
 
 class Database {
 
+	protected static $_instance;
 	protected $email, $config, $db_host, $db_user, $db_pass, $db_database, $db;
 	protected $jobs, $cities;
 	protected $prefix = 'cl_';
@@ -36,6 +37,10 @@ class Database {
 
 		return $this->db;
 
+	}
+
+	public static function getInstance() {
+		return self::$_instance;
 	}
 
 
