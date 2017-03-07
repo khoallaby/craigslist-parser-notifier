@@ -94,7 +94,7 @@ class Database {
 		$this->db->join( 'states s', 's.region_id = r.region_id', 'LEFT' );
 		$this->db->join( 'cities c', 'c.state_id = s.state_id', 'LEFT' );
 		$this->where( $where );
-		$cityCodes = $this->db->get( 'regions r', null, 'c.code' );
+		$cityCodes = $this->db->getValue( 'regions r', 'c.code', null );
 
 		return $cityCodes;
 	}
