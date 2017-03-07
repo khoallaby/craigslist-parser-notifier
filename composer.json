@@ -1,0 +1,6 @@
+{
+    "require": {
+        "andrewevansmith/php-craigslist-api-utility": "dev-master",
+        "joshcam/mysqli-database-class": "dev-master"
+    }
+}
