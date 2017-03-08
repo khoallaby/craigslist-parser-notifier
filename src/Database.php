@@ -11,6 +11,8 @@ class Database {
 	protected $email, $config, $db_host, $db_user, $db_pass, $db_database, $db;
 	protected $jobs, $cities;
 	protected $prefix = 'cl_';
+	public $total_query_count = 0,
+		   $city_query_count  = 0;
 
 	public function __construct() {
 
@@ -122,8 +124,13 @@ class Database {
 
 
 	public function addJobs( array $results ) {
-		foreach( $results as $pid => $job )
-			$this->addJob( $job );
+		$this->city_query_count = 0;
+		foreach( $results as $pid => $job ) {
+			if( $this->addJob( $job ) ) {
+				$this->city_query_count++;
+				$this->total_query_count++;
+			}
+		}
 	}
 
 

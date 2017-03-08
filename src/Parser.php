@@ -17,7 +17,7 @@ class Parser {
 
 	}
 
-	private function sleepRandom( $start = 1, $stop = 10, $seed = null ) {
+	private function sleepRandom( $start = 1, $stop = 30, $seed = null ) {
 		if( isset($this->config['sleep']) && $this->config['sleep'] ) {
 			if ( !$seed )
 				$seed =( mt_rand() / mt_getrandmax() );
@@ -43,6 +43,7 @@ class Parser {
 			$this->parseRss( $cityCode );
 			$sleep = $this->sleepRandom();
 			$this->debugMessage( sprintf('Slept for : <b>%s</b> seconds<br />', $sleep) );
+			$this->debugMessage( sprintf('# of posts : <b>%s/%s</b><br /><br />', $this->dbInstance->city_query_count, $this->dbInstance->total_query_count) );
 		}
 	}
 
