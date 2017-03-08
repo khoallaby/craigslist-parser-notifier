@@ -45,6 +45,12 @@ class Database {
 		return self::$_instance;
 	}
 
+	public function getMysqliDb() {
+		return $this->db;
+	}
+
+
+
 
 	/**
 	 * CRUD functions
@@ -115,8 +121,19 @@ class Database {
 
 
 
+	public function addJobs( array $results ) {
+		foreach( $results as $pid => $job )
+			$this->addJob( $job );
+	}
 
 
+	public function addJob( array $job ) {
+
+		#$this->db->onDuplicate( $job );
+		#return $this->db->insert( 'jobs', $job );
+		return $this->db->setQueryOption( 'IGNORE' )->insert( 'jobs', $job );
+
+	}
 
 
 
