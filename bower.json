@@ -1,0 +1,22 @@
+{
+  "name": "craigslist-parser-notifier",
+  "description": "Another parser for craigslist",
+  "main": "index.html",
+  "authors": [
+    "Andy Nguyen"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/khoallaby/craigslist-parser-notifier",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.6"
+  }
+}
