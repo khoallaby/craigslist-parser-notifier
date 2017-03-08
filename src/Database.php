@@ -35,6 +35,8 @@ class Database {
 		$this->jobs = dbObject::table( 'jobs' );
 		$this->cities = dbObject::table( 'cities' );
 
+		self::$_instance = $this;
+
 		return $this->db;
 
 	}
@@ -104,4 +106,21 @@ class Database {
 	public function getCityCodesByCountry( $country ) {
 		return $this->getCityCodes( array( 'r.name' => $country ) );
 	}
+
+
+
+
+	public function add_job() {
+
+	}
+
+
+
+
+
+
+
+
+
+
 }
