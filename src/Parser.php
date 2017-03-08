@@ -3,11 +3,9 @@
 namespace Craigslist;
 
 
-
 class Parser {
 
 	protected $dbInstance, $config;
-
 
 
 	public function __construct( array $config = array() ) {
@@ -19,21 +17,32 @@ class Parser {
 
 	}
 
-	private function sleepRandom( $start = 1, $stop = 120, $seed = null ) {
-		if( $this->config['sleep'] ) {
+	private function sleepRandom( $start = 1, $stop = 10, $seed = null ) {
+		if( isset($this->config['sleep']) && $this->config['sleep'] ) {
 			if ( !$seed )
 				$seed =( mt_rand() / mt_getrandmax() );
 			$stop = $stop * $seed;
 			$sleep = mt_rand( $start, round( $stop ) + $start );
 			sleep( $sleep );
+			return $sleep;
+		}
+		return 0;
+	}
+
+	private function debugMessage( $msg = '' ) {
+		if( isset($this->config['debug']) && $this->config['debug'] ) {
+			echo $msg;
+			ob_flush();
 		}
 	}
 
 
 	public function parseByCodes( array $cityCodes = array() ) {
 		foreach( $cityCodes as $cityCode ) {
+			$this->debugMessage( sprintf('Parsing: <b>%s</b><br />', $cityCode) );
 			$this->parseRss( $cityCode );
-			$this->sleepRandom();
+			$sleep = $this->sleepRandom();
+			$this->debugMessage( sprintf('Slept for : <b>%s</b> seconds<br />', $sleep) );
 		}
 	}
 
