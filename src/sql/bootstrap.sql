@@ -251,7 +251,7 @@ INSERT INTO cl_cities VALUES ('96', '11', 'columbusga', 'columbusga.craigslist.o
 INSERT INTO cl_cities VALUES ('97', '11', 'macon', 'macon.craigslist.org', 'Macon / Warner Robins');
 INSERT INTO cl_cities VALUES ('98', '11', 'nwga', 'nwga.craigslist.org', 'Northwest GA');
 INSERT INTO cl_cities VALUES ('99', '11', 'savannah', 'savannah.craigslist.org', 'Savannah / Hinesville');
-INSERT INTO cl_cities VALUES ('100', '11', 'cl_statesboro', 'cl_statesboro.craigslist.org', 'Cl_statesboro');
+INSERT INTO cl_cities VALUES ('100', '11', 'statesboro', 'statesboro.craigslist.org', 'Statesboro');
 INSERT INTO cl_cities VALUES ('101', '11', 'valdosta', 'valdosta.craigslist.org', 'Valdosta');
 INSERT INTO cl_cities VALUES ('102', '12', 'honolulu', 'honolulu.craigslist.org', 'Hawaii');
 INSERT INTO cl_cities VALUES ('103', '13', 'boise', 'boise.craigslist.org', 'Boise');
