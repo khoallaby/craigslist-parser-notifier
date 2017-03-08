@@ -108,11 +108,13 @@ class Database {
 	}
 
 
-
-
-	public function add_job() {
-
+	public function getCityCodesByState( $state ) {
+		return $this->getCityCodes( array( 's.state_code' => $state ) );
 	}
+
+
+
+
 
 
 
