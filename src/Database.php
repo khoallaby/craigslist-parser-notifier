@@ -2,36 +2,30 @@
 
 namespace Craigslist;
 
-use MysqliDb, dbObject;
+use MysqliDb, dbObject, mysqli;
 
 
 class Database {
 
 	protected static $_instance;
-	protected $email, $config, $db_host, $db_user, $db_pass, $db_database, $db;
+	protected $email, $db_host, $db_user, $db_pass, $db_database, $db, $mysqliLink;
 	protected $jobs, $cities;
-	protected $prefix = 'cl_';
+	public $prefix = 'cl_';
 	public $total_query_count = 0,
 		   $city_query_count  = 0;
 
 	public function __construct() {
 
 		$config = parse_ini_file( dirname(__FILE__) . '/../db.ini', true );
-		$this->config = $config;
 		$this->email = $config['settings']['email'];
 		$this->db_host = $config['database']['host'];
 		$this->db_user = $config['database']['user'];
 		$this->db_pass = $config['database']['password'];
 		$this->db_database = $config['database']['database'];
 
-		#$this->db = DB::getInstance( $this->db_host, $this->db_user, $this->db_pass, $this->db_database );
-		$this->db = new MysqliDb( Array (
-			'host' => $this->db_host,
-			'username' => $this->db_user,
-			'password' => $this->db_pass,
-			'db'=> $this->db_database,
-			'prefix' => $this->prefix
-		) );
+		$this->mysqliLink = new mysqli( $this->db_host, $this->db_user, $this->db_pass, $this->db_database );
+		$this->db = new MysqliDb( $this->mysqliLink );
+		$this->db->setPrefix( $this->prefix );
 
 
 		$this->jobs = dbObject::table( 'jobs' );
@@ -45,6 +39,10 @@ class Database {
 
 	public static function getInstance() {
 		return self::$_instance;
+	}
+
+	public function getMysqli() {
+		return $this->mysqliLink;
 	}
 
 	public function getMysqliDb() {
