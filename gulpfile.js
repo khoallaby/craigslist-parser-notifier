@@ -81,7 +81,8 @@ gulp.task('livereload', ['php'], function() {
         //config.scss.src + '**/*.scss',
         config.scss.pub + '**/*.css',
         config.js.src + '**/*.js',
-        publicDir + '**/*.php'
+        publicDir + '**/*.php',
+        srcDir + '**/*.php'
     ], function (event) {
         gulp.src(event.path)
             .pipe(livereload());
