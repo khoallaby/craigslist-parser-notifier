@@ -9,7 +9,7 @@ class Database {
 
 	protected static $_instance;
 	protected $email, $db_host, $db_user, $db_pass, $db_database, $db, $mysqliLink;
-	protected $jobs, $cities;
+	public $jobs, $cities;
 	public $prefix = 'cl_';
 	public $total_query_count = 0,
 		   $city_query_count  = 0;
@@ -28,8 +28,8 @@ class Database {
 		$this->db->setPrefix( $this->prefix );
 
 
-		$this->jobs = dbObject::table( 'jobs' );
-		$this->cities = dbObject::table( 'cities' );
+		#$this->jobs = dbObject::table( 'jobs' );
+		#$this->cities = dbObject::table( 'cities' );
 
 		self::$_instance = $this;
 
@@ -98,11 +98,16 @@ class Database {
 
 
 
-	public function getCityCodes( $where = array() ) {
+	public function getCityCodes( $where = array(), $key = null ) {
 		$this->db->join( 'states s', 's.region_id = r.region_id', 'LEFT' );
 		$this->db->join( 'cities c', 'c.state_id = s.state_id', 'LEFT' );
 		$this->where( $where );
-		$cityCodes = $this->db->getValue( 'regions r', 'c.code', null );
+
+		if( !$key )
+			$cityCodes = $this->db->map( 'city_id' )->objectBuilder()->get( 'regions r', null, array('c.city_id', 'c.code') );
+			#$cityCodes = $this->db->getValue( 'regions r', 'c.code', null );
+		else
+			$cityCodes = $this->db->map( $key )->objectBuilder()->get( 'regions r');
 
 		return $cityCodes;
 	}
