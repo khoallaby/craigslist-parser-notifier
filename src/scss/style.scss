@@ -3,3 +3,9 @@
 //@import "bootstrap/variables";
 @import "bootstrap/bootstrap";
 
+article {
+  &:nth-child(even) h2 a { color: $blue-color; }
+  h2 {
+    a { color: $brand-primary; }
+  }
+}

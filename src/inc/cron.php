@@ -1,5 +1,5 @@
 <?php
-$time_start = microtime(true);
+$timeStart = microtime(true);
 ob_implicit_flush(true);
 ob_start();
 
@@ -12,7 +12,7 @@ $args = array(
 	'search' => $search,
 	'exclude' => $exclude,
 	'postedToday' => false,
-	'sleep' => 2, # array( 10, 120 ),
+	'sleep' => array( 10, 120 ),
 	'debug' => true
 );
 
@@ -41,7 +41,7 @@ $parser->parseByCodes( $cityCodes );
 
 ob_end_flush();
 $numPosts = Craigslist\Database::getInstance()->total_query_count;
-$time = microtime(true) - $time_start;
+$time = microtime(true) - $timeStart;
 echo sprintf( 'Execution time: <b>%s</b> seconds | <b>%s</b> %s found<br />',
 	$time,
 	$numPosts,

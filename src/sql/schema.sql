@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS cl_states (
 CREATE TABLE IF NOT EXISTS cl_cities (
     city_id int(11) NOT NULL,
     state_id int(11) NOT NULL,
-    code varchar(255) NOT NULL,
+    city_code varchar(255) NOT NULL,
     url varchar(255) NOT NULL,
     name varchar(255) NOT NULL
 );
