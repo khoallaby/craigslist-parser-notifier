@@ -5,6 +5,7 @@
   "main": "index.html",
   "author": "Andy Nguyen",
   "homepage": "https://www.andynguyen.net",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/khoallaby/craigslist-parser-notifier.git"
@@ -12,11 +13,14 @@
   "devDependencies": {
     "gulp": "latest",
     "gulp-autoprefixer": "^1.0.1",
+    "gulp-connect-php": "0.0.8",
     "gulp-imagemin": "^2.2.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-notify": "^3.0.0",
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^2.3.2",
     "gulp-uglify": "^1.1.0",
-    "browser-sync": "^2.0.0"
+    "gulp-util": "^3.0.8"
   }
 }

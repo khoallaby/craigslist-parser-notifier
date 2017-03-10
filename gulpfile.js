@@ -1,13 +1,14 @@
 var gulp         = require('gulp'),
 //var bower        = require('gulp-bower'),
     sass         = require('gulp-sass'),
-    browserSync  = require('browser-sync'),
     prefix       = require('gulp-autoprefixer'),
     plumber      = require('gulp-plumber'),
     uglify       = require('gulp-uglify'),
     rename       = require("gulp-rename"),
     imagemin     = require("gulp-imagemin"),
     pngquant     = require('imagemin-pngquant'),
+    php          = require('gulp-connect-php'),
+    livereload   = require('gulp-livereload'),
     gutil        = require('gulp-util');
 
 
@@ -55,7 +56,43 @@ gulp.task('bower', function() {
 
 
 /**
+ * PHP server @ localhost:8000
+ */
+gulp.task('php', function() {
+    // remove trailing slash so it doesnt explode
+    var dir = publicDir.substring(0, publicDir.length - 1);
+    php.server({
+        base: dir,
+        hostname: 'localhost',
+        open: true,
+        port: 8000,
+        keepalive: true,
+        livereload: true
+    });
+});
+
+
+/**
+ * livereload
+ */
+gulp.task('livereload', ['php'], function() {
+
+    gulp.watch([
+        //config.scss.src + '**/*.scss',
+        config.scss.pub + '**/*.css',
+        config.js.src + '**/*.js',
+        publicDir + '**/*.php'
+    ], function (event) {
+        gulp.src(event.path)
+            .pipe(livereload());
+    });
+
+});
+
+
+/**
  * Sass - minify, autoprefix
+ * @todo: srcmaps, concat on PROD
  **/
 gulp.task('sass', function() {
     return gulp.src([
@@ -69,17 +106,6 @@ gulp.task('sass', function() {
 });
 
 
-
-/**
- * BrowserSync.io - localhost:3000
- **/
-gulp.task('browser-sync', function() {
-    browserSync.init([publicDir + 'css/*.css', publicDir + 'js/**/*.js', 'index.html'], {
-        server: {
-            baseDir: publicDir
-        }
-    });
-});
 
 
 /**
@@ -112,10 +138,14 @@ gulp.task('images', function () {
 
 
 
-gulp.task('default', ['sass', /*'browser-sync',*/ 'scripts', 'images', 'watch']);
+gulp.task('default', ['php', 'livereload', 'sass', 'scripts', 'images', 'watch']);
+
 
 gulp.task('watch', function () {
+
+    livereload.listen();
     gulp.watch(config.scss.src + '**/*.scss', ['sass']);
     gulp.watch(config.js.src + '**/*.js', ['scripts']);
     gulp.watch(publicDir + 'images/*', ['images']);
+
 });
