@@ -16,7 +16,7 @@ class Database {
 
 	public function __construct() {
 
-		$config = parse_ini_file( dirname(__FILE__) . '/../db.ini', true );
+		$config = parse_ini_file( dirname(__FILE__) . '/../../db.ini', true );
 		$this->email = $config['settings']['email'];
 		$this->db_host = $config['database']['host'];
 		$this->db_user = $config['database']['user'];
