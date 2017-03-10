@@ -24,9 +24,8 @@ var config = {
         pub: publicDir + 'js'
     },
     scss : {
-        src: srcDir + 'scss',
-        styleCss: srcDir + 'scss/style.scss',
-        pub: publicDir + 'css',
+        src: srcDir + 'scss/',
+        pub: publicDir + 'css/',
         sassOpts: {
             outputStyle: 'nested', // todo: compressed for prod
             precison: 3,
@@ -97,7 +96,7 @@ gulp.task('livereload', ['php'], function() {
  **/
 gulp.task('sass', function() {
     return gulp.src([
-            config.scss.src + '/**/*.scss'
+            config.scss.src + '**/*.scss'
             //!config.scss.src + 'bootstrap/*.scss' // ignores contents of src/bootstrap dir
         ])
         .pipe(plumber({ errorHandler: onError }))
