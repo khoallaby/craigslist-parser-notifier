@@ -9,7 +9,6 @@ class Parser {
 
 
 	public function __construct( array $config = array() ) {
-		set_time_limit(60*10);
 		$this->config = $config;
 		$this->dbInstance = \Craigslist\Database::getInstance();
 		if( empty( $this->dbInstance ) )
@@ -17,8 +16,20 @@ class Parser {
 
 	}
 
-	private function sleepRandom( $start = 1, $stop = 30, $seed = null ) {
+	public function editConfig( array $config = array() ) {
+		$this->config = $config;
+	}
+
+	private function sleepRandom( $start = 1, $stop = 120, $seed = null ) {
 		if( isset($this->config['sleep']) && $this->config['sleep'] ) {
+			// allows sleep to be set via config
+			if( is_numeric($this->config['sleep']) ) {
+				$stop = $this->config['sleep'];
+			} elseif( is_array($this->config['sleep']) ) {
+				$start = $this->config['sleep'][0];
+				$stop = $this->config['sleep'][1];
+			}
+
 			if ( !$seed )
 				$seed =( mt_rand() / mt_getrandmax() );
 			$stop = $stop * $seed;
@@ -39,6 +50,7 @@ class Parser {
 
 	public function parseByCodes( array $cityCodes = array() ) {
 		foreach( $cityCodes as $cityCode ) {
+			set_time_limit(60*10);
 			$this->debugMessage( sprintf('Parsing: <b>%s</b><br />', $cityCode) );
 			$this->parseRss( $cityCode );
 			$sleep = $this->sleepRandom();
