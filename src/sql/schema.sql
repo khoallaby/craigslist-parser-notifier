@@ -3,13 +3,13 @@ CREATE TABLE IF NOT EXISTS cl_jobs (
     id int(11) unsigned NOT NULL AUTO_INCREMENT,
     pid bigint(20) unsigned NOT NULL,
     city_id int(11) NOT NULL,
-    date date DEFAULT NULL,
+    date datetime DEFAULT NULL,
     date_modified datetime DEFAULT NULL,
     cat varchar(4) DEFAULT NULL,
     link varchar(255) DEFAULT NULL,
     title varchar(255) DEFAULT NULL,
     description text,
-    email varchar(255) DEFAULT NULL,
+    notify TINYINT(1) DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY (pid)
 );
