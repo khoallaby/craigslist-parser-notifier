@@ -3,8 +3,7 @@
  * Easy web UI to truncate/install tables, delete if un-needed!
  */
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
-require_once dirname(__FILE__) . '/../src/Database.php';
-require_once dirname(__FILE__) . '/../src/Parser.php';
+require_once dirname(__FILE__) . '/../src/autoload.php';
 
 function checkUserPass( $user, $pass ) {
 	$config = parse_ini_file( dirname(__FILE__) . '/../db.ini', true );
