@@ -97,6 +97,37 @@ class Database {
 	}
 
 
+	public function addJobs( array $results ) {
+		$this->city_query_count = 0;
+		foreach( $results as $pid => $job ) {
+			if( $this->addJob( $job ) ) {
+				$this->city_query_count++;
+				$this->total_query_count++;
+			}
+		}
+	}
+
+
+	public function addJob( array $job ) {
+
+		#$this->db->onDuplicate( $job );
+		#return $this->db->insert( 'jobs', $job );
+		return $this->db->setQueryOption( 'IGNORE' )->insert( 'jobs', $job );
+
+	}
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * Data retrieval functions
+	 */
 
 	public function getCityCodes( $where = array(), $key = null ) {
 		$this->db->join( 'states s', 's.region_id = r.region_id', 'LEFT' );
@@ -125,25 +156,6 @@ class Database {
 
 
 
-
-	public function addJobs( array $results ) {
-		$this->city_query_count = 0;
-		foreach( $results as $pid => $job ) {
-			if( $this->addJob( $job ) ) {
-				$this->city_query_count++;
-				$this->total_query_count++;
-			}
-		}
-	}
-
-
-	public function addJob( array $job ) {
-
-		#$this->db->onDuplicate( $job );
-		#return $this->db->insert( 'jobs', $job );
-		return $this->db->setQueryOption( 'IGNORE' )->insert( 'jobs', $job );
-
-	}
 
 
 
