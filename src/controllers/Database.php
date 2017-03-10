@@ -9,7 +9,6 @@ class Database {
 
 	protected static $_instance;
 	protected $email, $db_host, $db_user, $db_pass, $db_database, $db, $mysqliLink;
-	public $jobs, $cities;
 	public $prefix = 'cl_';
 	public $total_query_count = 0,
 		   $city_query_count  = 0;
@@ -26,10 +25,6 @@ class Database {
 		$this->mysqliLink = new mysqli( $this->db_host, $this->db_user, $this->db_pass, $this->db_database );
 		$this->db = new MysqliDb( $this->mysqliLink );
 		$this->db->setPrefix( $this->prefix );
-
-
-		#$this->jobs = dbObject::table( 'jobs' );
-		#$this->cities = dbObject::table( 'cities' );
 
 		self::$_instance = $this;
 
@@ -61,9 +56,10 @@ class Database {
 	}
 
 
-	public function get( $table, $data, $where = array(), $compare = array(), $limit = null ) {
-		$this->where( $where, $compare );
-		return $this->db->get( $table, $data, $limit );
+	public function get( $table, $data = '*', $where = array(), $compare = array(), $limit = null ) {
+		if( !empty( $where ) )
+			$this->where( $where, $compare );
+		return $this->db->get( $table, $limit, $data );
 	}
 
 
@@ -135,8 +131,7 @@ class Database {
 		$this->where( $where );
 
 		if( !$key )
-			$cityCodes = $this->db->map( 'city_id' )->objectBuilder()->get( 'regions r', null, array('c.city_id', 'c.code') );
-			#$cityCodes = $this->db->getValue( 'regions r', 'c.code', null );
+			$cityCodes = $this->db->map( 'city_id' )->objectBuilder()->get( 'regions r', null, array('c.city_id', 'c.city_code') );
 		else
 			$cityCodes = $this->db->map( $key )->objectBuilder()->get( 'regions r');
 
@@ -159,6 +154,31 @@ class Database {
 
 
 
+	public function getJobs( ) {
+		$this->db->join( 'cities c', 'j.city_id = c.city_id', 'LEFT' );
+		$this->db->orderBy( 'date', 'DESC' );
+		$jobs = $this->db->withTotalCount()->objectBuilder()->get(
+			'jobs j',
+			null,
+			'j.pid, j.date, j.link, j.title, j.description, c.city_code, c.name'
+		);
+		return $jobs;
+	}
+
+
+	public function getJobsByCountry( ) {
+
+	}
+
+
+	public function getJobsByState( ) {
+
+	}
+
+
+	public function getJobsByCity( ) {
+
+	}
 
 
 
