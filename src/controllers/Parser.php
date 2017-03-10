@@ -5,7 +5,7 @@ namespace Craigslist;
 
 class Parser {
 
-	protected $dbInstance, $config;
+	protected $dbInstance, $config, $cityId;
 
 
 	public function __construct( array $config = array() ) {
@@ -49,8 +49,10 @@ class Parser {
 
 
 	public function parseByCodes( array $cityCodes = array() ) {
-		foreach( $cityCodes as $cityCode ) {
+		foreach( $cityCodes as $cityId => $cityCode ) {
 			set_time_limit(60*10);
+			$this->cityId = $cityId;
+
 			$this->debugMessage( sprintf('Parsing: <b>%s</b><br />', $cityCode) );
 			$this->parseRss( $cityCode );
 			$sleep = $this->sleepRandom();
@@ -85,6 +87,7 @@ class Parser {
 		$newResults = array_map(function($job) {
 			$cat = explode('/', parse_url( $job['link'], PHP_URL_PATH ) );
 			$job['pid'] = $job['id'];
+			$job['city_id'] = $this->cityId;
 			$job['cat'] = $cat[1];
 			$job['date_modified'] = $this->dbInstance->getMysqliDb()->now();
 			unset($job['id']);
