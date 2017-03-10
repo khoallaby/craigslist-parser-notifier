@@ -1,4 +1,7 @@
 <?php
+/**
+ * Easy web UI to truncate/install tables, delete if un-needed!
+ */
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
 require_once dirname(__FILE__) . '/../src/Database.php';
 require_once dirname(__FILE__) . '/../src/Parser.php';
@@ -44,8 +47,9 @@ if( isset($_POST['user'], $_POST['pass']) ) {
 				while ($db->getMysqli()->more_results()) {;}
 				importSql( 'bootstrap.sql' );
 			}
+		} elseif( isset($_POST['delete_file']) ) {
+			header( 'Location: /' ) ;
 		}
-		echo $db->getMysqliDb()->getLastQuery();
 	}
 }
 
@@ -56,5 +60,6 @@ if( isset($_POST['user'], $_POST['pass']) ) {
 	<label>Pass: <input type="password" name="pass" value="<?php echo isset( $_POST['pass'] ) ? $_POST['pass'] : ''; ?>" /> </label><br />
 	<input type="submit" name="truncate" value="Truncate Jobs" />
 	<input type="submit" name="install" value="Install Tables" />
+    <p><input type="submit" name="delete_file" value="Delete this file" /></p>
 </form>
 
