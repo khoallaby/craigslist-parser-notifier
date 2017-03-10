@@ -222,7 +222,7 @@ INSERT INTO cl_cities VALUES ('67', '8', 'delaware', 'delaware.craigslist.org', 
 INSERT INTO cl_cities VALUES ('68', '9', 'washingtondc', 'washingtondc.craigslist.org', 'Washington');
 INSERT INTO cl_cities VALUES ('69', '10', 'daytona', 'daytona.craigslist.org', 'Daytona Beach');
 INSERT INTO cl_cities VALUES ('70', '10', 'keys', 'keys.craigslist.org', 'Florida Keys');
-INSERT INTO cl_cities VALUES ('71', '10', 'fortlauderdale', 'fortlauderdale.craigslist.org', 'Fort Lauderdale');
+#INSERT INTO cl_cities VALUES ('71', '10', 'fortlauderdale', 'fortlauderdale.craigslist.org', 'Fort Lauderdale');
 INSERT INTO cl_cities VALUES ('72', '10', 'fortmyers', 'fortmyers.craigslist.org', 'Ft Myers / SW Florida');
 INSERT INTO cl_cities VALUES ('73', '10', 'gainesville', 'gainesville.craigslist.org', 'Gainesville');
 INSERT INTO cl_cities VALUES ('74', '10', 'cfl', 'cfl.craigslist.org', 'Heartland Florida');
@@ -241,7 +241,7 @@ INSERT INTO cl_cities VALUES ('86', '10', 'staugustine', 'staugustine.craigslist
 INSERT INTO cl_cities VALUES ('87', '10', 'tallahassee', 'tallahassee.craigslist.org', 'Tallahassee');
 INSERT INTO cl_cities VALUES ('88', '10', 'tampa', 'tampa.craigslist.org', 'Tampa Bay Area');
 INSERT INTO cl_cities VALUES ('89', '10', 'treasure', 'treasure.craigslist.org', 'Treasure Coast');
-INSERT INTO cl_cities VALUES ('90', '10', 'westpalmbeach', 'westpalmbeach.craigslist.org', 'West Palm Beach');
+#INSERT INTO cl_cities VALUES ('90', '10', 'westpalmbeach', 'westpalmbeach.craigslist.org', 'West Palm Beach');
 INSERT INTO cl_cities VALUES ('91', '11', 'albanyga', 'albanyga.craigslist.org', 'Albany');
 INSERT INTO cl_cities VALUES ('92', '11', 'athensga', 'athensga.craigslist.org', 'Athens');
 INSERT INTO cl_cities VALUES ('93', '11', 'atlanta', 'atlanta.craigslist.org', 'Atlanta');
@@ -525,7 +525,7 @@ INSERT INTO cl_cities VALUES ('370', '45', 'ogden', 'ogden.craigslist.org', 'Ogd
 INSERT INTO cl_cities VALUES ('371', '45', 'provo', 'provo.craigslist.org', 'Provo / Orem');
 INSERT INTO cl_cities VALUES ('372', '45', 'saltlakecity', 'saltlakecity.craigslist.org', 'Salt Lake City');
 INSERT INTO cl_cities VALUES ('373', '45', 'stgeorge', 'stgeorge.craigslist.org', 'St George');
-INSERT INTO cl_cities VALUES ('374', '46', 'burlington', 'burlington.craigslist.org', 'Vermont');
+INSERT INTO cl_cities VALUES ('374', '46', 'vermont', 'vermont.craigslist.org', 'Vermont');
 INSERT INTO cl_cities VALUES ('375', '47', 'charlottesville', 'charlottesville.craigslist.org', 'Charlottesville');
 INSERT INTO cl_cities VALUES ('376', '47', 'danville', 'danville.craigslist.org', 'Danville');
 INSERT INTO cl_cities VALUES ('377', '47', 'fredericksburg', 'fredericksburg.craigslist.org', 'Fredericksburg');
