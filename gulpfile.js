@@ -1,36 +1,40 @@
-var gulp         = require('gulp'),
-//var bower        = require('gulp-bower'),
-    sass         = require('gulp-sass'),
-    prefix       = require('gulp-autoprefixer'),
-    plumber      = require('gulp-plumber'),
-    uglify       = require('gulp-uglify'),
-    rename       = require("gulp-rename"),
-    imagemin     = require("gulp-imagemin"),
-    pngquant     = require('imagemin-pngquant'),
-    php          = require('gulp-connect-php'),
-    livereload   = require('gulp-livereload'),
-    gutil        = require('gulp-util');
+var gulp        = require('gulp'),
+//var bower       = require('gulp-bower'),
+    sass        = require('gulp-sass'),
+    prefix      = require('gulp-autoprefixer'),
+    plumber     = require('gulp-plumber'),
+    uglify      = require('gulp-uglify'),
+    rename      = require("gulp-rename"),
+    imagemin    = require("gulp-imagemin"),
+    pngquant    = require('imagemin-pngquant'),
+    php         = require('gulp-connect-php'),
+    livereload  = require('gulp-livereload'),
+    gutil       = require('gulp-util');
 
 
-var srcDir       = 'src/',
-    publicDir    = 'public/',
-    vendorDir    = 'vendor/';
-var bowerDir     = vendorDir + 'bower_components/';
+var srcDir      = 'src/',
+    publicDir   = 'public/',
+    vendorDir   = 'vendor/';
+var bowerDir    = vendorDir + 'bower_components/',
+    assetsDir   = publicDir + 'assets/';
 
 
 var config = {
     js: {
         src: srcDir + 'js',
-        pub: publicDir + 'js'
+        pub: assetsDir + 'js'
     },
     scss : {
         src: srcDir + 'scss/',
-        pub: publicDir + 'css/',
+        pub: assetsDir + 'css/',
         sassOpts: {
             outputStyle: 'nested', // todo: compressed for prod
             precison: 3,
             errLogToConsole: true,
-            includePaths: [ bowerDir + 'bootstrap/scss']
+            includePaths: [
+                bowerDir + 'bootstrap/scss',
+                bowerDir + 'fontawesome/css'
+            ]
         }
     }
 };
@@ -112,13 +116,13 @@ gulp.task('sass', function() {
  * JS - Uglify
  **/
 gulp.task('scripts', function() {
-    gulp.src(publicDir + 'js/*.js')
+    gulp.src(assetsDir + '*.js')
         .pipe(uglify())
         .pipe(rename({
             dirname: "min",
             suffix: ".min"
         }))
-        .pipe(gulp.dest(publicDir + 'js'))
+        .pipe(gulp.dest(assetsDir + 'js'))
 });
 
 /**
@@ -134,11 +138,14 @@ gulp.task('images', function () {
         .pipe(gulp.dest('images'));
 });
 
+gulp.task('move-files',function(){
+    gulp.src(bowerDir + 'font-awesome/fonts/**/*')
+        .pipe(gulp.dest(assetsDir + 'fonts/'));
+});
 
 
 
-
-gulp.task('default', ['php', 'livereload', 'sass', 'scripts', 'images', 'watch']);
+gulp.task('default', ['php', 'livereload', 'sass', 'scripts', 'images', 'move-files', 'watch']);
 
 
 gulp.task('watch', function () {
