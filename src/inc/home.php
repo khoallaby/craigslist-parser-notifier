@@ -10,6 +10,7 @@ $jobs = $db->getJobs(
 $i = 0;
 foreach ( $jobs as $job ) {
 	$i ++;
+	$job = \Craigslist\WebUI::filterContent( $job );
 	$articleClass = $i % 2 ? 'odd' : 'even';
 	if ( $job->saved ) {
 		$articleClass .= ' saved';

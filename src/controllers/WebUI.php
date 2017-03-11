@@ -40,6 +40,15 @@ class WebUI {
 	}
 
 
+	public static function filterContent( $job ) {
+		# adds links to urls
+		$job->description = preg_replace( '/https?:\/\/[\w\-\.!~#?&=+\*\'"(),\/]+/','<a href="$0" target="_blank">$0</a>', $job->description);
+		# adds permalink to [...]
+		$job->description = str_replace( '[...]', '<a href=' . $job->link . ' target="_blank">[...]</a>', $job->description );
+		return $job;
+	}
+
+
 
 
 

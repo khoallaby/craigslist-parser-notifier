@@ -16,22 +16,24 @@
 section.post {
 
   // default styles
+  &:hover { background-color: lighten($body-bg, 2%); }
   padding: 2rem 0;
+  a { @include vhfa($yellow); }
   h2 {
     font-size: 1.5rem;
     font-weight: bold;
-    a { @include vhfa($yellow); }
   }
   .icons {
     a, .fa { color: $white; }
   }
   .description { overflow: hidden; }
 
-
   // even
   &.even {
-    h2 a { @include vhfa($blue); }
+    a { @include vhfa($blue); }
   }
+
+
 
   // saved
   &.saved {
