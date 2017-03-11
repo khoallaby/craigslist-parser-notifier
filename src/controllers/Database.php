@@ -14,19 +14,22 @@ class Database {
 		   $city_query_count  = 0;
 
 	public function __construct() {
+		if( !self::getInstance() ) {
 
-		$config = parse_ini_file( dirname(__FILE__) . '/../../db.ini', true );
-		$this->email = $config['settings']['email'];
-		$this->db_host = $config['database']['host'];
-		$this->db_user = $config['database']['user'];
-		$this->db_pass = $config['database']['password'];
-		$this->db_database = $config['database']['database'];
+			$config = parse_ini_file( dirname(__FILE__) . '/../../db.ini', true );
+			$this->email = $config['settings']['email'];
+			$this->db_host = $config['database']['host'];
+			$this->db_user = $config['database']['user'];
+			$this->db_pass = $config['database']['password'];
+			$this->db_database = $config['database']['database'];
 
-		$this->mysqliLink = new mysqli( $this->db_host, $this->db_user, $this->db_pass, $this->db_database );
-		$this->db = new MysqliDb( $this->mysqliLink );
-		$this->db->setPrefix( $this->prefix );
+			$this->mysqliLink = new mysqli( $this->db_host, $this->db_user, $this->db_pass, $this->db_database );
+			$this->db = new MysqliDb( $this->mysqliLink );
+			$this->db->setPrefix( $this->prefix );
 
-		self::$_instance = $this;
+			self::$_instance = $this;
+		}
+
 
 		return $this->db;
 
@@ -156,13 +159,14 @@ class Database {
 
 
 
-	public function getJobs( $limit = 50 ) {
+	public function getJobs( $where = array(), $compare = array(), $limit = 50 ) {
 		$this->db->join( 'cities c', 'j.city_id = c.city_id', 'LEFT' );
+		$this->where( $where, $compare );
 		$this->db->orderBy( 'date', 'DESC' );
 		$jobs = $this->db->withTotalCount()->objectBuilder()->get(
 			'jobs j',
 			$limit,
-			'j.id, j.pid, j.date, j.link, j.title, j.description, c.city_code, c.name as city_name'
+			'j.*, c.city_code, c.name as city_name'
 		);
 		return $jobs;
 	}

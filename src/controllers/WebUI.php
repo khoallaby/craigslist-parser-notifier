@@ -9,11 +9,9 @@ class WebUI {
 
 
 	public function __construct( ) {
-		require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 		$this->dbInstance = \Craigslist\Database::getInstance();
 		if( empty( $this->dbInstance ) )
 			$this->dbInstance = new \Craigslist\Database();
-
 		$this->index();
 	}
 
@@ -24,16 +22,25 @@ class WebUI {
 		$page       = $params[1];
 		$safe_pages = array( 'cron', 'api' );
 		if(in_array($page, $safe_pages)) {
-			if( $page == 'cron' )
-				require dirname(__FILE__) . '/../inc/cron.php';
-			else
-				require $page . '.php';
+			if( $page == 'cron' ) {
+				require dirname( __FILE__ ) . '/../inc/cron.php';
+			} elseif( $page = 'api' ) {
+				\Craigslist\Api::init();
+
+
+			} else {
+				require dirname( __FILE__ ) . '/../inc/home.php';
+			}
+				#require $page . '.php';
 		} else {
 			require dirname(__FILE__) . '/../inc/home.php';
 
 		}
 
 	}
+
+
+
 
 
 
