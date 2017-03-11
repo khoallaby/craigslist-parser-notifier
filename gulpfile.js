@@ -6,6 +6,7 @@ var gulp        = require('gulp'),
     uglify      = require('gulp-uglify'),
     concat      = require('gulp-concat'),
     minify      = require('gulp-clean-css'),
+    sourcemaps  = require('gulp-sourcemaps'),
     merge       = require('merge-stream'),
     rename      = require("gulp-rename"),
     imagemin    = require("gulp-imagemin"),
@@ -34,10 +35,7 @@ var config = {
             outputStyle: 'nested',
             precison: 3,
             errLogToConsole: true,
-            includePaths: [
-                bowerDir + 'bootstrap/scss',
-                bowerDir + 'fontawesome/css'
-            ]
+            includePaths: [bowerDir + 'bootstrap/scss']
         }
     }
 };
@@ -99,6 +97,7 @@ gulp.task('livereload', ['php'], function() {
 
 /**
  * Sass - autoprefix, concat, minify, merge with css files
+ * @todo: run this on deploy
  **/
 gulp.task('sass', function() {
     var scssStream = gulp.src([
@@ -118,10 +117,13 @@ gulp.task('sass', function() {
         .pipe(concat('css-files.css'));
 
     return merge(scssStream, cssStream)
+        .pipe(sourcemaps.init())
         .pipe(concat('style.css'))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(assetsDir + 'css/'))
         .pipe(concat('style.min.css'))
         .pipe(minify())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(assetsDir + 'css/'));
 
 });
