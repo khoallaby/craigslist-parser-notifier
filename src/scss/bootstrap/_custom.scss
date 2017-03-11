@@ -1,17 +1,20 @@
 
 $white: #fff !default;
 
-$yellow-color: #f7fe2e;
-$blue-color: #18cff4;
-$background-color: #323232;
+$yellow: #f7fe2e;
+$yellow-bg: #3a3a2e;
+$blue: #18cff4;
+$blue-bg: #2c3537;
 
+$background-color: #323232;
+$red: #c43535;
 
 
 // bootstrap overwrites
 
-$brand-primary: $yellow-color;
+$brand-primary: $yellow;
 
-$body-bg: $background-color;
+$body-bg: #323232;
 $body-color: $white;
 
 $link-color: $brand-primary;

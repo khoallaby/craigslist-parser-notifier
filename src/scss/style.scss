@@ -1,32 +1,62 @@
 
 @import "bootstrap/bootstrap";
 
-article {
-  margin-bottom: 2rem;
-  &.even {
-    h2 a {
-      color: $blue-color;
-      &:visited { color: darken($blue-color, 30%); }
-      &:hover { color: lighten($blue-color, 15%); }
-      &:focus,
-      &:active { color: darken($blue-color, 15%); }
-      .fa { color: $white; }
-    }
-  }
+
+@mixin vhfa($color, $v: 20%, $h: 10%, $fa: 10%) {
+  color: $color;
+  &:visited { color: darken($color, $v); }
+  &:hover { color: lighten($color, $h); }
+  &:focus,
+  &:active { color: darken($color, $fa); }
+}
+
+
+
+
+section.post {
+
+  // default styles
+  padding: 2rem 0;
   h2 {
     font-size: 1.5rem;
-    a {
-      color: $yellow-color;
-      &:visited { color: darken($yellow-color, 30%); }
-      &:hover { color: lighten($yellow-color, 15%); }
-      &:focus,
-      &:active { color: darken($yellow-color, 15%); }
-    }
+    font-weight: bold;
+    a { @include vhfa($yellow); }
   }
-  hr {
-    border: 1px solid darken(white, 65%);
-    margin-top: 2rem;
-    width: 50%;
+  .icons {
+    a, .fa { color: $white; }
+  }
+  .description { overflow: hidden; }
+
+
+  // even
+  &.even {
+    h2 a { @include vhfa($blue); }
   }
 
+  // saved
+  &.saved {
+    &.even {
+      background-color: $blue-bg;
+      color: $white;
+      &:hover { background-color: lighten($blue-bg, 2%); }
+    }
+
+    background-color: $yellow-bg;
+    color: $white;
+    &:hover { background-color: lighten($yellow-bg, 2%); }
+
+
+    .icons {
+      a { background-color: $red; }
+      .badge:hover { background-color: lighten($red, 10%);}
+    }
+  }
+
+}
+
+
+hr {
+  border-top: 1px solid darken(white, 10%);
+  margin: 1rem auto;
+  width: 50%;
 }
