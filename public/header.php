@@ -1,3 +1,4 @@
+<?php $timeStart = microtime(true); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,6 @@
 	<meta name="author" content="">
 	<link rel="icon" href="../../favicon.ico">
 	<title>Craigslist Posts</title>
-	<link href="css/style.css" rel="stylesheet" />
+	<link href="assets/css/style.min.css" rel="stylesheet" />
 </head>
 <body>
