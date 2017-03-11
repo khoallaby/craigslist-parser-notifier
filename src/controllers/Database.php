@@ -2,7 +2,7 @@
 
 namespace Craigslist;
 
-use MysqliDb, dbObject, mysqli;
+use MysqliDb, mysqli;
 
 
 class Database {
@@ -108,7 +108,7 @@ class Database {
 
 		#$this->db->onDuplicate( $job );
 		#return $this->db->insert( 'jobs', $job );
-		return $this->db->setQueryOption( 'IGNORE' )->insert( 'jobs', $job );
+		return $this->db->setQueryOption( Array('LOW_PRIORITY', 'IGNORE') )->insert( 'jobs', $job );
 
 	}
 
@@ -125,10 +125,12 @@ class Database {
 	 * Data retrieval functions
 	 */
 
-	public function getCityCodes( $where = array(), $key = null ) {
+	public function getCityCodes( $where = array(), $key = null, $rand = false ) {
 		$this->db->join( 'states s', 's.region_id = r.region_id', 'LEFT' );
 		$this->db->join( 'cities c', 'c.state_id = s.state_id', 'LEFT' );
 		$this->where( $where );
+		if( $rand )
+			$this->db->orderBy("RAND ()");
 
 		if( !$key )
 			$cityCodes = $this->db->map( 'city_id' )->objectBuilder()->get( 'regions r', null, array('c.city_id', 'c.city_code') );
@@ -154,13 +156,13 @@ class Database {
 
 
 
-	public function getJobs( ) {
+	public function getJobs( $limit = 50 ) {
 		$this->db->join( 'cities c', 'j.city_id = c.city_id', 'LEFT' );
 		$this->db->orderBy( 'date', 'DESC' );
 		$jobs = $this->db->withTotalCount()->objectBuilder()->get(
 			'jobs j',
-			null,
-			'j.pid, j.date, j.link, j.title, j.description, c.city_code, c.name'
+			$limit,
+			'j.id, j.pid, j.date, j.link, j.title, j.description, c.city_code, c.name as city_name'
 		);
 		return $jobs;
 	}
