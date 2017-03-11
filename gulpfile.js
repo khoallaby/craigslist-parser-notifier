@@ -4,6 +4,9 @@ var gulp        = require('gulp'),
     prefix      = require('gulp-autoprefixer'),
     plumber     = require('gulp-plumber'),
     uglify      = require('gulp-uglify'),
+    concat      = require('gulp-concat'),
+    minify      = require('gulp-clean-css'),
+    merge       = require('merge-stream'),
     rename      = require("gulp-rename"),
     imagemin    = require("gulp-imagemin"),
     pngquant    = require('imagemin-pngquant'),
@@ -28,7 +31,7 @@ var config = {
         src: srcDir + 'scss/',
         pub: assetsDir + 'css/',
         sassOpts: {
-            outputStyle: 'nested', // todo: compressed for prod
+            outputStyle: 'nested',
             precison: 3,
             errLogToConsole: true,
             includePaths: [
@@ -95,18 +98,30 @@ gulp.task('livereload', ['php'], function() {
 
 
 /**
- * Sass - minify, autoprefix
- * @todo: srcmaps, concat on PROD
+ * Sass - autoprefix, concat, minify, merge with css files
  **/
 gulp.task('sass', function() {
-    return gulp.src([
+    var scssStream = gulp.src([
             config.scss.src + '**/*.scss'
             //!config.scss.src + 'bootstrap/*.scss' // ignores contents of src/bootstrap dir
         ])
         .pipe(plumber({ errorHandler: onError }))
         .pipe(sass(config.scss.sassOpts))
         .pipe(prefix('last 2 versions', '> 1%', 'ie 8', 'Android 2', 'Firefox ESR'))
-        .pipe(gulp.dest(config.scss.pub));
+        .pipe(concat('scss-files.css'));
+        //.pipe(gulp.dest(config.scss.pub));
+
+
+    var cssStream = gulp.src([
+            bowerDir + 'font-awesome/css/font-awesome.css'
+        ])
+        .pipe(concat('css-files.css'));
+
+    return merge(scssStream, cssStream)
+        .pipe(concat('style.css'))
+        .pipe(minify())
+        .pipe(gulp.dest(assetsDir + 'css/'));
+
 });
 
 
@@ -145,7 +160,7 @@ gulp.task('move-files',function(){
 
 
 
-gulp.task('default', ['php', 'livereload', 'sass', 'scripts', 'images', 'move-files', 'watch']);
+gulp.task('default', ['sass', 'scripts', 'images', 'move-files', 'php', 'livereload', 'watch']);
 
 
 gulp.task('watch', function () {
