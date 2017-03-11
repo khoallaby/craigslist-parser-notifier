@@ -119,6 +119,8 @@ gulp.task('sass', function() {
 
     return merge(scssStream, cssStream)
         .pipe(concat('style.css'))
+        .pipe(gulp.dest(assetsDir + 'css/'))
+        .pipe(concat('style.min.css'))
         .pipe(minify())
         .pipe(gulp.dest(assetsDir + 'css/'));
 
