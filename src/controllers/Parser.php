@@ -10,6 +10,14 @@ class Parser {
 
 	public function __construct( array $config = array() ) {
 		$this->config = $config;
+
+		// set timeout limits
+		$timeout = 60*60*2; // 2 hours
+		ini_set( 'mysqli.reconnect', 1 );
+		ini_set( 'mysql.connect_timeout', $timeout );
+		ini_set( 'default_socket_timeout', $timeout );
+		set_time_limit( $timeout );
+
 		$this->dbInstance = \Craigslist\Database::getInstance();
 		if( empty( $this->dbInstance ) )
 			$this->dbInstance = new \Craigslist\Database();
@@ -42,18 +50,23 @@ class Parser {
 
 	private function debugMessage( $msg = '' ) {
 		if( isset($this->config['debug']) && $this->config['debug'] ) {
-			echo $msg;
+			echo $msg ."\n";
 			ob_flush();
 		}
 	}
 
 
 	public function parseByCodes( array $cityCodes = array() ) {
+		global $timeStart;
 		foreach( $cityCodes as $cityId => $cityCode ) {
-			set_time_limit(60*10);
 			$this->cityId = $cityId;
-
+			$ping = mysqli_ping( $this->dbInstance->getMysqli() );
 			$this->debugMessage( sprintf('Parsing: <b>%s</b><br />', $cityCode) );
+			$this->debugMessage( sprintf('Mysqli ping: <b>%s</b><br />', $ping ? 'true' : 'false') );
+			if( $timeStart ) {
+				$time = microtime(true) - $timeStart;
+				$this->debugMessage( sprintf('Time elapsed: <b>%s</b><br />', $time ) );
+			}
 			$this->parseRss( $cityCode );
 			$sleep = $this->sleepRandom();
 			$this->debugMessage( sprintf('Slept for : <b>%s</b> seconds<br />', $sleep) );
