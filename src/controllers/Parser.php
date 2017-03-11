@@ -56,6 +56,28 @@ class Parser {
 	}
 
 
+
+
+
+
+
+
+	public function getUrlByCity( $cityCode, $config = array() ) {
+		if( empty($config) )
+			$config = $this->config;
+
+		$url =  'https://' . $cityCode . '.craigslist.org/search/';
+		$url .= sprintf( '%s?format=rss&query=%s%s%s',
+			urlencode( $this->config['category'] ),
+			urlencode( $this->config['search'] ),
+			$this->config['postedToday'] ? '&postedToday=1' : '',
+			isset( $this->config['exclude'] ) ? '&excats=' . urlencode( $this->config['exclude'] ) : ''
+		);
+
+		return $url;
+	}
+
+
 	public function parseByCodes( array $cityCodes = array() ) {
 		global $timeStart;
 		foreach( $cityCodes as $cityId => $cityCode ) {
@@ -67,7 +89,7 @@ class Parser {
 				$time = microtime(true) - $timeStart;
 				$this->debugMessage( sprintf('Time elapsed: <b>%s</b><br />', $time ) );
 			}
-			$this->parseRss( $cityCode );
+			$this->parseByCity( $cityCode );
 			$sleep = $this->sleepRandom();
 			$this->debugMessage( sprintf('Slept for : <b>%s</b> seconds<br />', $sleep) );
 			$this->debugMessage( sprintf('# of posts : <b>%s/%s</b><br /><br />', $this->dbInstance->city_query_count, $this->dbInstance->total_query_count) );
@@ -75,7 +97,7 @@ class Parser {
 	}
 
 
-	public function parseRss( $cityCode ) {
+	public function parseByCity( $cityCode ) {
 
 		$url = sprintf( 'search/%s?format=rss&query=%s%s%s',
 			urlencode( $this->config['category'] ),
@@ -84,17 +106,7 @@ class Parser {
 			isset( $this->config['exclude'] ) ? '&excats=' . urlencode( $this->config['exclude'] ) : ''
 		);
 
-
-		$request = new \Craigslist\CraigslistRequest( array(
-			'city' => $cityCode,
-			'url' => $url,
-			#'category' => $this->config['category'],
-			#'query' => $this->config['search'],
-			#'follow_links' => true,
-		) );
-
-		$api = new \Craigslist\CraigslistApi();
-		$results = $api->get($request);
+		$results = $this->parseRss( $cityCode );
 
 		// add/modify data before adding it to DB
 		$newResults = array_map(function($job) {
@@ -114,6 +126,35 @@ class Parser {
 		return $newResults;
 
 	}
+
+
+	public function parseRss( $cityCode ) {
+		$url = $this->getUrlByCity( $cityCode );
+
+		$contents = file_get_contents( $url );
+		$posts = simplexml_load_string(utf8_encode($contents));
+
+		$results = array();
+		foreach( $posts as $post ) {
+			$url = explode( '.', basename( $post->link ) );
+			$pid = $url[0];
+			$children = $post->children("dc", true);
+
+			$results[$pid] = array(
+				'id'          => $pid,
+				'link'        => (string) $post->link,
+				'title'       => (string) $post->title,
+				'description' => (string) $post->description,
+				'date'        => (string) $children->date
+			);
+		}
+
+		return $results;
+	}
+
+
+
+
 
 
 }

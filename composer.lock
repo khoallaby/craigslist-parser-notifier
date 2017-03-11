@@ -4,53 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "41679f4a8a99b3e32e51f74d11d73be4",
+    "content-hash": "856298cfb482dc5a63cce2f899588faf",
     "packages": [
-        {
-            "name": "andrewevansmith/php-craigslist-api-utility",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/andrewevansmith/php-craigslist-api-utility.git",
-                "reference": "400fa449febd6a85aff3ed3075241b981d13f7df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/andrewevansmith/php-craigslist-api-utility/zipball/400fa449febd6a85aff3ed3075241b981d13f7df",
-                "reference": "400fa449febd6a85aff3ed3075241b981d13f7df",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0",
-                "sunra/php-simple-html-dom-parser": "v1.5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Craigslist\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andrew Evan Smith",
-                    "email": "andrew.evan.smith@gmail.com"
-                }
-            ],
-            "description": "PHP Craigslist API Utility",
-            "homepage": "https://github.com/andrewevansmith/php-craigslist-api-utility",
-            "keywords": [
-                "craigslist",
-                "craigslist api",
-                "craigslist scraping",
-                "php",
-                "utility"
-            ],
-            "time": "2015-10-25 18:33:04"
-        },
         {
             "name": "joshcam/mysqli-database-class",
             "version": "dev-master",
@@ -144,7 +99,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "andrewevansmith/php-craigslist-api-utility": 20,
         "joshcam/mysqli-database-class": 20
     },
     "prefer-stable": false,
