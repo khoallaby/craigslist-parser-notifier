@@ -1,3 +1,4 @@
+<?php require dirname( __FILE__ ) . '/menu.php'; ?>
 <section class="content">
 <?php
 $db   = Craigslist\Database::getInstance();

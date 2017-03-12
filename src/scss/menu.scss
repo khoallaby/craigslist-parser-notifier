@@ -1,0 +1,28 @@
+@import "bootstrap/custom";
+
+header {
+  background-color: #202020;
+}
+
+nav {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 5px 0;
+  ul {
+    margin-bottom: 0;
+    li { display: inline-block; }
+  }
+  form {
+    button.btn {
+      background-color: transparent;
+      border-color: $yellow;
+      color: $yellow;
+      &:hover {
+        background-color: $yellow;
+        border-color: $yellow;
+        color: black;
+      }
+    }
+  }
+}
