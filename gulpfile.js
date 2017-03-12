@@ -135,6 +135,18 @@ gulp.task('sass', function() {
  * JS - Uglify
  **/
 gulp.task('scripts', function() {
+    gulp.src([
+            //bowerDir + 'angular/angular.js',
+            config.js.src + '**/*.js'
+        ])
+        .pipe(sourcemaps.init())
+        .pipe(concat('scripts.js'))
+        .pipe(gulp.dest(config.js.pub))
+        .pipe(uglify())
+        .pipe(concat('scripts.min.js'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(config.js.pub));
+    /*
     gulp.src(assetsDir + '*.js')
         .pipe(uglify())
         .pipe(rename({
@@ -142,6 +154,7 @@ gulp.task('scripts', function() {
             suffix: ".min"
         }))
         .pipe(gulp.dest(assetsDir + 'js'))
+    */
 });
 
 /**
@@ -157,14 +170,16 @@ gulp.task('images', function () {
         .pipe(gulp.dest('images'));
 });
 
-gulp.task('move-files',function(){
+gulp.task('copy-files',function(){
     gulp.src(bowerDir + 'font-awesome/fonts/**/*')
         .pipe(gulp.dest(assetsDir + 'fonts/'));
+    gulp.src(bowerDir + 'angular/angular*.js')
+        .pipe(gulp.dest(config.js.pub));
 });
 
 
 
-gulp.task('default', ['sass', 'scripts', 'images', 'move-files', 'php', 'livereload', 'watch']);
+gulp.task('default', ['sass', 'scripts', 'images', 'copy-files', 'php', 'livereload', 'watch']);
 
 
 gulp.task('watch', function () {
