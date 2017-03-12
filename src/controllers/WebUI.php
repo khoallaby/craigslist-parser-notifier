@@ -6,6 +6,7 @@ namespace Craigslist;
 class WebUI {
 
 	protected $dbInstance, $config;
+	static $timeStart;
 
 
 	public function __construct( ) {
@@ -15,6 +16,15 @@ class WebUI {
 		$this->index();
 	}
 
+	public static function header() {
+		self::$timeStart = microtime(true);
+		require dirname(__FILE__) . '/../inc/header.php';
+		require dirname(__FILE__) . '/../inc/menu.php';
+	}
+
+	public static function footer() {
+		require dirname(__FILE__) . '/../inc/footer.php';
+	}
 
 
 	public function index() {
