@@ -154,6 +154,20 @@ class Database {
 		return $this->getCityCodes( array( 's.state_code' => $state ) );
 	}
 
+	// retrieves city codes by their an array of city IDs [ id => code ]
+	public function getCityCodesByIds( $codes = array() ) {
+		$this->where(
+			array('city_id' => $codes ),
+			array('city_id' => 'IN' )
+		);
+		$cityCodes = $this->db->map( 'city_id' )->objectBuilder()->get( 'cities' );
+		$cityCodes2 = [];
+		foreach( $cityCodes as $k =>$cc ) {
+			$cityCodes2[$k] = $cc->city_code;
+		}
+		return $cityCodes2;
+	}
+
 
 
 
