@@ -66,6 +66,13 @@ class Database {
 	}
 
 
+	public function getOne( $table, $data = '*', $where = array(), $compare = array() ) {
+		if( !empty( $where ) )
+			$this->where( $where, $compare );
+		return $this->db->objectBuilder()->getOne( $table, $data );
+	}
+
+
 	public function update( $table, $data, $where = array(), $compare = array(), $limit = null ) {
 		$this->where( $where, $compare );
 		return $this->db->update( $table, $data, $limit );

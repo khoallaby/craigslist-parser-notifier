@@ -10,7 +10,7 @@
                     <p>
                         <time datetime="{{ job.date }}">{{ job.date | parseDate }}</time>
                         <span class="icons">
-                            <a href="api/save/{{ job.id }}" class="badge badge-default"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                            <a href class="badge badge-default" ng-click="clickSave(job.id)"><i class="fa fa-heart" aria-hidden="true"></i></a>
                             <a href="api/hide/{{ job.id }}" class="badge badge-default"><i class="fa fa-trash" aria-hidden="true"></i></a>
                         </span>
                     </p>

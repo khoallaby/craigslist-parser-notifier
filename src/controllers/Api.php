@@ -16,11 +16,8 @@ class Api extends Database {
 
 	public static function init() {
 
-		#var_dump(self::getInstance()->db);
-
 		$api = str_replace('/api/', '', $_SERVER['REQUEST_URI'] );
 		$params = explode( '/', $api );
-		#$this->api_call( $apiParams[0], $apiParams[1] );
 
 		header('Content-type: application/json');
 
@@ -29,43 +26,39 @@ class Api extends Database {
 				if( !isset($params[1]) )
 					return json_encode([]);
 
-				if( $params[1] == 'jobs' ) {
-					$jobs = self::getInstance()->get(
-						'jobs',
-						'*',
-						array( 'hide' => 0 ),
-						array( 'hide' => '=' ),
-						isset( $params[2] ) ? $params[2] : null
-					);
+				$limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : 50;
 
-					$jobs = self::getInstance()->getJobs(
-						array('hide' => 0),
-						array( 'hide' => '=' ),
-						5
-					);
+				$jobs = self::getInstance()->getJobs(
+					array('hide' => 0),
+					array( 'hide' => '=' ),
+					$limit
+				);
 
-					$jobs = array_map('\Craigslist\WebUI::filterContent', $jobs );
+				$jobs = array_map('\Craigslist\WebUI::filterContent', $jobs );
+				$json = array(
+					'jobs' => $jobs,
+					'status' => true
+				);
 
-					echo json_encode( $jobs );
-
-				} else {
-					return json_encode([]);
-				}
-
-
+				echo json_encode( $json );
 				break;
+
 
 			case 'save':
-				$response = self::getInstance()->update( 'jobs', array( 'saved' => 1), array( 'id' => $params[1] ) );
-				if( $response )
-					echo json_encode( array( 'status' => true ) );
-				else
-					echo json_encode( array( 'status' => false ) );
+				$job = self::getInstance()->getOne( 'jobs', '*', array( 'id' => $params[1] ), array( 'id' => '=' )  );
+				if( !$job )
+					self::jsonError( 'Invalid job' );
+				$job->saved = $job->saved == 1 ? 0 : 1;
+
+				$response = self::getInstance()->update( 'jobs', array( 'saved' => $job->saved ), array( 'id' => $params[1] ) );
+				echo json_encode( array( 'status' => $response, 'job' => $job ) );
 				break;
+
 
 			case 'hide':
 				self::getInstance()->update( 'jobs', array( 'hide' => 1), array( 'id' => $params[1] ) );
 				break;
+
 
 			case 'search':
 
@@ -83,6 +76,15 @@ class Api extends Database {
 
 	public static function save() {
 
+	}
+
+
+
+	private static function jsonError( $reason = '' ) {
+		$return = array( 'status' => false );
+		if( !empty($reason) )
+			$return['message'] = $reason;
+		die( json_encode( $return ) );
 	}
 
 
