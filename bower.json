@@ -19,6 +19,7 @@
   "dependencies": {
     "angular": "^1.6.3",
     "bootstrap": "v4.0.0-alpha.6",
-    "font-awesome": "fontawesome#^4.7.0"
+    "font-awesome": "fontawesome#^4.7.0",
+    "underscore": "^1.8.3"
   }
 }

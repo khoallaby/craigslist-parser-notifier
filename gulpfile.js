@@ -130,13 +130,14 @@ gulp.task('sass', function() {
 
 
 
-
+/* fix uglify for ecma6
 /**
  * JS - Uglify
  **/
 gulp.task('scripts', function() {
     gulp.src([
             //bowerDir + 'angular/angular.js',
+            //bowerDir + 'underscore/underscore.js',
             config.js.src + '**/*.js'
         ])
         .pipe(sourcemaps.init())
@@ -151,7 +152,7 @@ gulp.task('scripts', function() {
         .pipe(uglify())
         .pipe(rename({
             dirname: "min",
-            suffix: ".min"
+            suffix: ".copy"
         }))
         .pipe(gulp.dest(assetsDir + 'js'))
     */
@@ -174,6 +175,8 @@ gulp.task('copy-files',function(){
     gulp.src(bowerDir + 'font-awesome/fonts/**/*')
         .pipe(gulp.dest(assetsDir + 'fonts/'));
     gulp.src(bowerDir + 'angular/angular*.js')
+        .pipe(gulp.dest(config.js.pub));
+    gulp.src(bowerDir + 'underscore/underscore*.js')
         .pipe(gulp.dest(config.js.pub));
 });
 
