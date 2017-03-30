@@ -1,10 +1,11 @@
-var app = angular.module('clApp', []);
+var app = angular.module('clApp', ['ngTouch']);
 
 //app.constant('moment', require('moment-timezone'));
 
 app.controller('clContent', function ($scope, $http) {
     var baseUrl = 'api/';
-    var numJobs = 10;
+    var numJobs = 50;
+    $scope.direction = 'left';
 
     var displayError = function (message) {
         console.log('error: %s', message);
@@ -25,34 +26,58 @@ app.controller('clContent', function ($scope, $http) {
         }
     };
 
+
+
+    var updateJob = function (response, type, jobId) {
+        if (!isError(response)) {
+            //var index = $scope.jobs.findIndex( x => x.id==jobId ); // ecma6 way
+            var index = _.findIndex($scope.jobs, function (job) {
+                return job.id == jobId;
+            });
+
+            if (isNaN(index)) {
+                displayError();
+            } else {
+                if (type == 'save') {
+                    $scope.jobs[index].saved = response.data.job.saved;
+                } else if (type == 'hide') {
+                    // hide the job
+                    console.log(response.data.job.hide);
+                    $scope.jobs[index].hide = response.data.job.hide;
+                }
+            }
+        }
+    };
+
+    // Get jobs
     $http.get(baseUrl + 'get/' + numJobs).then(function (response) {
         $scope.jobs = response.data.jobs;
     }, function (response) {
         error(response);
     });
 
-    //var defer = $q.defer();
 
+    // Save a job
     $scope.clickSave = function (jobId) {
         $http.get(baseUrl + 'save/' + jobId).then(function (response) {
-            if (!isError(response)) {
-                //var index = $scope.jobs.findIndex( x => x.id==jobId ); // ecma6 way
-                var index = _.findIndex($scope.jobs, function (job) {
-                    return job.id == jobId;
-                });
-
-                if (isNaN(index)) {
-                    displayError();
-                } else {
-                    $scope.jobs[index].saved = response.data.job.saved;
-                }
-            }
-            //defer.resolve(response.data);
-        }, function (response) {
-            error('Error');
+            updateJob(response, 'save', jobId);
+        }, function (reponse) {
+            isError(response);
         });
+    };
 
-        //return defer.promise;
+
+    // Hide function
+    $scope.clickHide = function (jobId, direction) {
+
+        direction = typeof direction !== 'undefined' ? direction : '';
+
+        $http.get(baseUrl + 'hide/' + jobId).then(function (response) {
+            $scope.direction = direction;
+            updateJob(response, 'hide', jobId);
+        }, function (reponse) {
+            isError(response);
+        });
     };
 
 

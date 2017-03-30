@@ -17,9 +17,37 @@
 section.post {
 
   // default styles
-  &:hover { background-color: lighten($body-bg, 2%); }
+  &:hover {
+    background-color: lighten($body-bg, 3%);
+    /*transition: background-color 1s ease-in-out;*/
+  }
+  height: auto;
+  opacity: 1;
   padding: 2rem 0;
-  a { @include vhfa($yellow); }
+  position: relative;
+  left: 0;
+  right: 0;
+  transition: all 1s;
+
+
+  &.hide {
+    height: 0;
+    opacity: 0;
+    padding: 0;
+    left: -2000px;
+    visibility: hidden;
+    &.right {
+      left: 2000px;
+      left: 2000px;
+      right: -2000px;
+    }
+  }
+
+  a {
+    @include vhfa($yellow);
+    &:hover {
+    }
+  }
   h2 {
     font-size: 1.5rem;
     font-weight: bold;
@@ -33,7 +61,6 @@ section.post {
   &.even {
     a { @include vhfa($blue); }
   }
-
 
 
   // saved

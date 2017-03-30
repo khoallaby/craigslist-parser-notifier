@@ -56,7 +56,8 @@ class Api extends Database {
 
 
 			case 'hide':
-				self::getInstance()->update( 'jobs', array( 'hide' => 1), array( 'id' => $params[1] ) );
+				$response = self::getInstance()->update( 'jobs', array( 'hide' => 1), array( 'id' => $params[1] ) );
+				echo json_encode( array( 'status' => $response, 'job' => array( 'hide' => 1 ) ) );
 				break;
 
 
