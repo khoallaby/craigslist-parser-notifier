@@ -171,12 +171,19 @@ gulp.task('images', function () {
         .pipe(gulp.dest('images'));
 });
 
+
+
+/**
+ * Copy vendor files to public folders
+ **/
 gulp.task('copy-files',function(){
     gulp.src(bowerDir + 'font-awesome/fonts/**/*')
         .pipe(gulp.dest(assetsDir + 'fonts/'));
-    gulp.src(bowerDir + 'angular/angular*.js')
-        .pipe(gulp.dest(config.js.pub));
-    gulp.src(bowerDir + 'underscore/underscore*.js')
+    gulp.src([
+        bowerDir + 'angular/angular.min.*',
+        bowerDir + 'angular-touch/angular-touch.min.*',
+        bowerDir + 'underscore/underscore-min.*'
+    ])
         .pipe(gulp.dest(config.js.pub));
 });
 

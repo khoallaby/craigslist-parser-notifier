@@ -9,6 +9,7 @@
 	<title>Craigslist Posts</title>
 	<link href="assets/css/style.min.css" rel="stylesheet" />
     <script type="text/javascript" src="assets/js/angular.min.js"></script>
+    <script type="text/javascript" src="assets/js/angular-touch.min.js"></script>
     <script type="text/javascript" src="assets/js/underscore-min.js"></script>
     <script type="text/javascript" src="assets/js/scripts.js"></script>
 </head>
