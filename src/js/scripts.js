@@ -4,7 +4,7 @@ var app = angular.module('clApp', ['ngTouch']);
 
 app.controller('clContent', function ($scope, $http) {
     var baseUrl = 'api/';
-    var numJobs = 50;
+    var numJobs = 100;
     $scope.direction = 'left';
 
     var displayError = function (message) {
