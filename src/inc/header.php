@@ -13,4 +13,4 @@
     <script type="text/javascript" src="assets/js/underscore-min.js"></script>
     <script type="text/javascript" src="assets/js/scripts.js"></script>
 </head>
-<body ng-app="clApp">
+<body ng-app="clApp" ng-init="type='<?php echo Craigslist\WebUI::getCurrentPage(); ?>'">

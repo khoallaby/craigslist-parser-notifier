@@ -43,8 +43,29 @@ class Api extends Database {
 				echo json_encode( $json );
 				break;
 
+            case 'favorites':
+                if( !isset($params[1]) )
+                    return json_encode([]);
 
-			case 'save':
+                $limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : 50;
+
+                $jobs = self::getInstance()->getJobs(
+                    array('saved' => 1),
+                    array( 'saved' => '=' ),
+                    $limit
+                );
+
+                $jobs = array_map('\Craigslist\WebUI::filterContent', $jobs );
+                $json = array(
+                    'jobs' => $jobs,
+                    'status' => true
+                );
+
+                echo json_encode( $json );
+                break;
+
+
+            case 'save':
 				$job = self::getInstance()->getOne( 'jobs', '*', array( 'id' => $params[1] ), array( 'id' => '=' )  );
 				if( !$job )
 					self::jsonError( 'Invalid job' );

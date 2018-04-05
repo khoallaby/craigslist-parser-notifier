@@ -3,8 +3,13 @@ var app = angular.module('clApp', ['ngTouch']);
 //app.constant('moment', require('moment-timezone'));
 
 app.controller('clContent', function ($scope, $http) {
+    console.log($scope);
     var baseUrl = 'api/';
     var numJobs = 100;
+    var jobsUrl = 'get/';
+    if( $scope.type == 'favorites' ) {
+        jobsUrl = 'favorites/';
+    }
     $scope.direction = 'left';
 
     var displayError = function (message) {
@@ -50,7 +55,7 @@ app.controller('clContent', function ($scope, $http) {
     };
 
     // Get jobs
-    $http.get(baseUrl + 'get/' + numJobs).then(function (response) {
+    $http.get(baseUrl + jobsUrl + numJobs).then(function (response) {
         $scope.jobs = response.data.jobs;
     }, function (response) {
         isError(response);
