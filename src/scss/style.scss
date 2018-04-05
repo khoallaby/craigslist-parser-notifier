@@ -31,6 +31,7 @@ section.post {
 
 
   &.hide {
+    display: none;
     height: 0;
     opacity: 0;
     padding: 0;
@@ -58,7 +59,9 @@ section.post {
   .description { overflow: hidden; }
 
   // even
-  &.even {
+  &:nth-child(even),
+  &.even
+  {
     a { @include vhfa($blue); }
   }
 
