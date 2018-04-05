@@ -4,6 +4,10 @@ ob_implicit_flush(true);
 ob_start();
 
 
+# city IDs that have over 10 listings
+$citiesOver10 = explode( ',', '35,45,252,391,84,44,40,304,68,344,109,93,314,168,57,80,16,228,349,195,283,43,163,88,231,207,34,251,354,102,270,233,213,263,230,55' );
+
+
 $search = 'wordpress|php|html|css|javascript -"on site" -onsite -"full time" -intern';
 $exclude = '12-1-2-1-7-1-2-1-1-19-1-1-1-2-2-1-2-2-2-14-25-25-1-1-1-1-1-1';
 
@@ -12,8 +16,9 @@ $args = array(
 	'search' => $search,
 	'exclude' => $exclude,
 	'postedToday' => false,
-	'sleep' => array( 10, 120 ),
-	'debug' => true
+	'sleep' => array( 10, 60 ),
+	'debug' => true,
+	#'proxy' => true
 );
 
 // parse jobs
@@ -21,7 +26,9 @@ $args = array(
 $parser = new Craigslist\Parser( $args );
 
 #$cityCodes = Craigslist\Database::getInstance()->getCityCodesByCountry( 'US' );
-$cityCodes = Craigslist\Database::getInstance()->getCityCodesByState( 'CO' );
+#$cityCodes = Craigslist\Database::getInstance()->getCityCodesByState( 'CO' );
+
+$cityCodes = Craigslist\Database::getInstance()->getCityCodesByIds( $citiesOver10 );
 
 $parser->parseByCodes( $cityCodes );
 
