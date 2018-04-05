@@ -6,7 +6,7 @@ namespace Craigslist;
 
 class Parser {
 
-	protected $dbInstance, $config, $cityId;
+	protected $dbInstance, $config, $cityId, $proxies;
 
 
 	public function __construct( array $config = array() ) {
@@ -135,7 +135,12 @@ class Parser {
 	public function parseRss( $cityCode ) {
 		$url = $this->getUrlByCity( $cityCode );
 
-		$contents = file_get_contents( $url );
+		if( isset($this->config['proxy']) ) {
+			$contents = $this->getProxyContents( $url );
+		} else {
+			$contents = file_get_contents( $url );
+		}
+
 		$posts = simplexml_load_string(utf8_encode($contents));
 
 		$results = array();
@@ -159,6 +164,47 @@ class Parser {
 
 
 
+
+
+
+	private function getProxies() {
+		$file = dirname(__FILE__) . '/../inc/proxies.json';
+		$file = file_get_contents( $file );
+		return json_decode($file);
+	}
+
+
+
+	public function getProxyContents( $url ) {
+		if( !$this->proxies )
+			$this->proxies = $this->getProxies();
+
+		ob_implicit_flush(true);
+		ob_start();
+		// get a random proxy
+		$proxy = $this->proxies[mt_rand(0, count($this->proxies) - 1)];
+		$proxyUrl = $proxy->ip . ':' . $proxy->port;
+
+		// create curl resource
+		$ch = curl_init();
+
+		// set options
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_PROXY, $proxyUrl);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // read more about HTTPS http://stackoverflow.com/questions/31162706/how-to-scrape-a-ssl-or-https-url/31164409#31164409
+		curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0');
+
+		// $output contains the output string
+		$output = curl_exec($ch);
+
+		// close curl resource to free up system resources
+		curl_close($ch);
+
+		$posts = simplexml_load_string(utf8_encode($output));
+
+		return $output;
+	}
 
 
 }
