@@ -28,8 +28,10 @@ class WebUI {
 
 
 	public function index() {
-	    $page = $this->getCurrentPage();
+	    $page = self::getCurrentPage();
+
         if( in_array($page, $this->getSafePages()) ) {
+
             if( $page == 'cron' ) {
 				require dirname( __FILE__ ) . '/../inc/cron.php';
 			} elseif( $page == 'api' ) {
@@ -39,7 +41,7 @@ class WebUI {
 			} else {
 				require dirname( __FILE__ ) . '/../inc/home.php';
 			}
-				#require $page . '.php';
+
 		} else {
 			require dirname(__FILE__) . '/../inc/home.php';
 
@@ -61,7 +63,7 @@ class WebUI {
 
 
 
-	function getNiceDuration($durationInSeconds) {
+	public static function getNiceDuration($durationInSeconds) {
 
 		$duration = '';
 		$days = floor($durationInSeconds / 86400);
@@ -87,7 +89,7 @@ class WebUI {
 	}
 
 
-	public function getCurrentPage() {
+	public static function getCurrentPage() {
         $params = explode( '/', $_SERVER['REQUEST_URI'] );
         $page = $params[1];
         return $page;

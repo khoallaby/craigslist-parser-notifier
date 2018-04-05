@@ -1,10 +1,13 @@
+<?php 
+$current_page = Craigslist\WebUI::getCurrentPage(); 
+?>
 <header>
     <nav class="container">
         <ul class="list-inline mr-auto">
-            <li class="active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            <li class="<?php echo $current_page == '' ? 'active' : ''; ?>">
+                <a class="nav-link" href="/">Home</a>
             </li>
-            <li>
+            <li class="<?php echo $current_page == 'favorites' ? 'active' : ''; ?>">
                 <a class="nav-link" href="/favorites">Favorites</a>
             </li>
         </ul>
