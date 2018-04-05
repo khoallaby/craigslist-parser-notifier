@@ -34,7 +34,7 @@ class WebUI {
 		if(in_array($page, $safe_pages)) {
 			if( $page == 'cron' ) {
 				require dirname( __FILE__ ) . '/../inc/cron.php';
-			} elseif( $page = 'api' ) {
+			} elseif( $page == 'api' ) {
 				\Craigslist\Api::init();
 
 
