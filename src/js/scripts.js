@@ -53,7 +53,7 @@ app.controller('clContent', function ($scope, $http) {
     $http.get(baseUrl + 'get/' + numJobs).then(function (response) {
         $scope.jobs = response.data.jobs;
     }, function (response) {
-        error(response);
+        isError(response);
     });
 
 
