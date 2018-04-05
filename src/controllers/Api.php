@@ -29,7 +29,7 @@ class Api extends Database {
 				$limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : 50;
 
 				$jobs = self::getInstance()->getJobs(
-					array('hide' => 0),
+                    array( 'hide' => 0 ),
 					array( 'hide' => '=' ),
 					$limit
 				);
@@ -50,8 +50,8 @@ class Api extends Database {
                 $limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : 50;
 
                 $jobs = self::getInstance()->getJobs(
-                    array('saved' => 1),
-                    array( 'saved' => '=' ),
+                    array( 'hide' => 0, 'saved' => 1 ),
+                    array( 'hide' => '=', 'saved' => '=' ),
                     $limit
                 );
 
