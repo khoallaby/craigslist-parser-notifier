@@ -1,4 +1,11 @@
 <?php
+error_reporting(E_ALL);
+error_reporting(-1);
+ini_set('max_execution_time', 60*60*4);
+set_time_limit(60*60*4);
+require_once dirname(__FILE__) . '/../../vendor/autoload.php';
+require_once dirname(__FILE__) . '/../autoload.php';
+
 $timeStart = microtime(true);
 ob_implicit_flush(true);
 ob_start();
