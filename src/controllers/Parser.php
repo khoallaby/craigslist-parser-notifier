@@ -2,6 +2,7 @@
 
 namespace Craigslist;
 
+//use Sunra\PhpSimple\HtmlDomParser;
 
 class Parser {
 
@@ -12,11 +13,14 @@ class Parser {
 		$this->config = $config;
 
 		// set timeout limits
-		$timeout = 60*60*2; // 2 hours
+		$timeout = 60*60*4; // 4 hours
 		ini_set( 'mysqli.reconnect', 1 );
 		ini_set( 'mysql.connect_timeout', $timeout );
 		ini_set( 'default_socket_timeout', $timeout );
 		set_time_limit( $timeout );
+
+        ini_set('max_execution_time', $timeout );
+        set_time_limit( $timeout );
 
 		$this->dbInstance = \Craigslist\Database::getInstance();
 		if( empty( $this->dbInstance ) )
