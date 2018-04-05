@@ -36,8 +36,6 @@ class WebUI {
 				require dirname( __FILE__ ) . '/../inc/cron.php';
 			} elseif( $page == 'api' ) {
 				\Craigslist\Api::init();
-            } elseif( $page == 'favorites' ) {
-                require dirname( __FILE__ ) . '/../inc/favorites.php';
 			} else {
 				require dirname( __FILE__ ) . '/../inc/home.php';
 			}
