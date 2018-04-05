@@ -8,7 +8,7 @@
                         <a href="{{ job.link }}" target="_blank">{{ job.title }}</a>
                     </h2>
                     <p>
-                        <time datetime="{{ job.date }}">{{ job.date | parseDate }}</time>
+                        <time datetime="{{ job.date }}">{{ job.date | parseDate:this }}</time>
                         <span class="icons">
                             <a href class="badge badge-default" ng-click="clickSave(job.id)"><i class="fa fa-heart" aria-hidden="true"></i></a>
                             <a href class="badge badge-default" ng-click="clickHide(job.id)"><i class="fa fa-trash" aria-hidden="true"></i></a>

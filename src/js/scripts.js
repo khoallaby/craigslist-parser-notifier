@@ -3,7 +3,6 @@ var app = angular.module('clApp', ['ngTouch']);
 //app.constant('moment', require('moment-timezone'));
 
 app.controller('clContent', function ($scope, $http) {
-    console.log($scope);
     var baseUrl = 'api/';
     var numJobs = 100;
     var jobsUrl = 'get/';
@@ -33,7 +32,7 @@ app.controller('clContent', function ($scope, $http) {
 
 
 
-    var updateJob = function (response, type, jobId) {
+    $scope.updateJob = function (response, type, jobId) {
         if (!isError(response)) {
             //var index = $scope.jobs.findIndex( x => x.id==jobId ); // ecma6 way
             var index = _.findIndex($scope.jobs, function (job) {
@@ -47,7 +46,6 @@ app.controller('clContent', function ($scope, $http) {
                     $scope.jobs[index].saved = response.data.job.saved;
                 } else if (type == 'hide') {
                     // hide the job
-                    console.log(response.data.job.hide);
                     $scope.jobs[index].hide = response.data.job.hide;
                 }
             }
@@ -65,7 +63,7 @@ app.controller('clContent', function ($scope, $http) {
     // Save a job
     $scope.clickSave = function (jobId) {
         $http.get(baseUrl + 'save/' + jobId).then(function (response) {
-            updateJob(response, 'save', jobId);
+            $scope.updateJob(response, 'save', jobId);
         }, function (reponse) {
             isError(response);
         });
@@ -79,11 +77,59 @@ app.controller('clContent', function ($scope, $http) {
 
         $http.get(baseUrl + 'hide/' + jobId).then(function (response) {
             $scope.direction = direction;
-            updateJob(response, 'hide', jobId);
+            $scope.updateJob(response, 'hide', jobId);
         }, function (reponse) {
             isError(response);
         });
     };
+
+
+
+
+
+    /**
+     * Time functions
+     */
+
+
+    $scope.timeSince = function (date) {
+
+        var seconds = Math.floor((new Date() - date) / 1000);
+        var interval = Math.floor(seconds / 31536000);
+
+        if (interval > 1) {
+            return interval + " years";
+        }
+        interval = Math.floor(seconds / 2592000);
+        if (interval > 1) {
+            return interval + " months";
+        }
+        interval = Math.floor(seconds / 86400);
+        if (interval > 1) {
+            return interval + " days";
+        }
+        interval = Math.floor(seconds / 3600);
+        if (interval > 1) {
+            return interval + " hours";
+        }
+        interval = Math.floor(seconds / 60);
+        if (interval > 1) {
+            return interval + " minutes";
+        }
+        return Math.floor(seconds) + " seconds";
+    };
+
+
+    $scope.formatTime = function (date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
 
 
 });
@@ -98,8 +144,13 @@ app.filter('trustAsHtml', function ($sce) {
 });
 
 app.filter('parseDate', function () {
-    return function (input) {
-        var date = new Date(input);
-        return date.toDateString();
+    return function (input, scope) {
+        var date = new Date(input),
+            locale = "en-us",
+            month = date.toLocaleString(locale, { month: "long" });
+        var dateFormat = month + ' ' + date.getDay();
+        var timeFormat = scope.formatTime(date);
+        return scope.timeSince(date) + ' ago (' + dateFormat + ' - ' + timeFormat + ')';
     };
 });
+
