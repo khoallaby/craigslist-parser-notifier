@@ -34,8 +34,8 @@ class WebUI {
 				require dirname( __FILE__ ) . '/../inc/cron.php';
 			} elseif( $page == 'api' ) {
 				\Craigslist\Api::init();
-
-
+            } elseif( $page == 'favorites' ) {
+                require dirname( __FILE__ ) . '/../inc/favorites.php';
 			} else {
 				require dirname( __FILE__ ) . '/../inc/home.php';
 			}
@@ -95,5 +95,5 @@ class WebUI {
 
 
     public function getSafePages() {
-        return array( 'cron', 'api' );    }
+        return array( 'cron', 'api', 'favorites' );    }
 }

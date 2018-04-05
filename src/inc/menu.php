@@ -2,10 +2,10 @@
     <nav class="container">
         <ul class="list-inline mr-auto">
             <li class="active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li>
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="/favorites">Favorites</a>
             </li>
         </ul>
         <form class="form-inline">
