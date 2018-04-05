@@ -28,11 +28,9 @@ class WebUI {
 
 
 	public function index() {
-		$params     = explode( '/', $_SERVER['REQUEST_URI'] );
-		$page       = $params[1];
-		$safe_pages = array( 'cron', 'api' );
-		if(in_array($page, $safe_pages)) {
-			if( $page == 'cron' ) {
+	    $page = $this->getCurrentPage();
+        if( in_array($page, $this->getSafePages()) ) {
+            if( $page == 'cron' ) {
 				require dirname( __FILE__ ) . '/../inc/cron.php';
 			} elseif( $page == 'api' ) {
 				\Craigslist\Api::init();
@@ -89,4 +87,13 @@ class WebUI {
 	}
 
 
+	public function getCurrentPage() {
+        $params = explode( '/', $_SERVER['REQUEST_URI'] );
+        $page = $params[1];
+        return $page;
+	}
+
+
+    public function getSafePages() {
+        return array( 'cron', 'api' );    }
 }
