@@ -61,8 +61,9 @@ app.controller('clContent', function ($scope, $http) {
 
 
     // Search for jobs
-    $scope.search = function () {
-        $http.get(baseUrl + 'search/' + $scope.searchValue).then(function (response) {
+    $scope.search = function (searchValue) {
+        $scope.jobs = [];
+        $http.get(baseUrl + 'search/' + searchValue).then(function (response) {
             $scope.jobs = response.data.jobs;
         }, function (reponse) {
             isError(response);
