@@ -14,13 +14,16 @@ nav {
     li {
       display: inline-block;
       a {
+        color: white;
         &:active,
         &:hover {
-          color: white;
+          color: $yellow;
           text-decoration: underline;
         }
       }
-      &.active { font-weight: bold; }
+      &.active a {
+        color: $yellow;
+      }
     }
   }
   form {
