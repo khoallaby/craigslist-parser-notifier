@@ -1,5 +1,5 @@
 <?php Craigslist\WebUI::header(); ?>
-<section class="content" ng-controller="clContent">
+<section class="content">
     <section ng-repeat="job in jobs" class="post {{ direction }}" ng-class="{'saved': job.saved, 'hide': job.hide}" ng-class-odd="'odd'" ng-class-even="'even'">
         <div class="container"  ng-swipe-left="clickHide(job.id)" ng-swipe-right="clickSave(job.id, 'right')">
             <div class="row">
