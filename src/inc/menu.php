@@ -5,10 +5,10 @@ $current_page = Craigslist\WebUI::getCurrentPage();
     <nav class="container">
         <ul class="list-inline mr-auto">
             <li class="<?php echo $current_page == '' ? 'active' : ''; ?>">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link " href="/"><i class="fa fa-home" aria-hidden="true"></i></a>
             </li>
             <li class="<?php echo $current_page == 'favorites' ? 'active' : ''; ?>">
-                <a class="nav-link" href="/favorites">Favorites</a>
+                <a class="nav-link " href="/favorites"><i class="fa fa-heart" aria-hidden="true"></i></a>
             </li>
         </ul>
         <form class="form-inline">
