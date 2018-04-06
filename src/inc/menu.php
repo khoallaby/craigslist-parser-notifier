@@ -12,7 +12,7 @@ $current_page = Craigslist\WebUI::getCurrentPage();
             </li>
         </ul>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" ng-change="search(searchValue)"  ng-model="searchValue"/>
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" ng-change="search(searchValue)"  ng-model="searchValue" ng-model-options="{debounce: 750}" />
             <!--<button class="btn btn-outline-primary" type="submit">Search</button>-->
         </form>
     </nav>
