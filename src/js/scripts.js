@@ -5,10 +5,7 @@ var app = angular.module('clApp', ['ngTouch']);
 app.controller('clContent', function ($scope, $http) {
     var baseUrl = 'api/';
     var numJobs = 100;
-    var jobsUrl = 'get/';
-    if( $scope.type == 'favorites' ) {
-        jobsUrl = 'favorites/';
-    }
+    sc=$scope;
     $scope.direction = 'left';
 
     var displayError = function (message) {
@@ -52,13 +49,20 @@ app.controller('clContent', function ($scope, $http) {
         }
     };
 
-    // Get jobs
-    $http.get(baseUrl + jobsUrl + numJobs).then(function (response) {
-        $scope.jobs = response.data.jobs;
-    }, function (response) {
-        isError(response);
-    });
 
+
+
+    // Get jobs based on page
+    $scope.getPage = function (page) {
+        var jobsUrl = (page == 'favorites') ? 'favorites/' : 'get/';
+        $scope.jobs = [];
+
+        $http.get(baseUrl + jobsUrl + numJobs).then(function (response) {
+            $scope.jobs = response.data.jobs;
+        }, function (response) {
+            isError(response);
+        });
+    };
 
     // Search for jobs
     $scope.search = function (searchValue) {
