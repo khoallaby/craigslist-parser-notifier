@@ -189,7 +189,6 @@ class Database {
 			$limit,
 			'j.*, c.city_code, c.name as city_name'
 		);
-        var_dump($this->db->getLastQuery());
 		return $jobs;
 	}
 
