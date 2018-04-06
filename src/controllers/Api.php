@@ -6,6 +6,7 @@ namespace Craigslist;
 class Api extends Database {
 
 	protected $dbInstance;
+	public static$limit = 100;
 	protected static $params, $method, $id;
 
 
@@ -26,7 +27,7 @@ class Api extends Database {
 				if( !isset($params[1]) )
 					return json_encode([]);
 
-				$limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : 50;
+				$limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : self::$limit;
 
 				$jobs = self::getInstance()->getJobs(
                     array( 'hide' => 0 ),
@@ -47,7 +48,7 @@ class Api extends Database {
                 if( !isset($params[1]) )
                     return json_encode([]);
 
-                $limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : 50;
+                $limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : self::$limit;
 
                 $jobs = self::getInstance()->getJobs(
                     array( 'hide' => 0, 'saved' => 1 ),
@@ -89,7 +90,7 @@ class Api extends Database {
                 if( !isset($search) )
                     return json_encode([]);
 
-                $limit = isset( $params[2] ) && is_numeric($params[2])? (int)$params[2] : 100;
+                $limit = isset( $params[2] ) && is_numeric($params[2])? (int)$params[2] : self::$limit;
 
                 $jobs = self::getInstance()->getJobs(
                     [
