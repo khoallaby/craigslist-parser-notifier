@@ -180,9 +180,9 @@ class Database {
 
 
 
-	public function getJobs( $where = array(), $compare = array(), $limit = 50 ) {
+	public function getJobs( $where = array(), $compare = array(), $limit = 50, $cond = 'AND' ) {
 		$this->db->join( 'cities c', 'j.city_id = c.city_id', 'LEFT' );
-		$this->where( $where, $compare, 'OR' );
+		$this->where( $where, $compare, $cond );
 		$this->db->orderBy( 'date', 'DESC' );
 		$jobs = $this->db->withTotalCount()->objectBuilder()->get(
 			'jobs j',

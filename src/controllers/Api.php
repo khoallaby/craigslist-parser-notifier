@@ -24,9 +24,6 @@ class Api extends Database {
 
 		switch( $params[0] ) {
 			case 'get':
-				if( !isset($params[1]) )
-					return json_encode([]);
-
 				$limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : self::$limit;
 
 				$jobs = self::getInstance()->getJobs(
@@ -44,16 +41,15 @@ class Api extends Database {
 				echo json_encode( $json );
 				break;
 
-            case 'favorites':
-                if( !isset($params[1]) )
-                    return json_encode([]);
 
+            case 'favorites':
                 $limit = isset( $params[1] ) && is_numeric($params[1])? (int)$params[1] : self::$limit;
 
                 $jobs = self::getInstance()->getJobs(
                     array( 'hide' => 0, 'saved' => 1 ),
                     array( 'hide' => '=', 'saved' => '=' ),
-                    $limit
+                    $limit,
+                    'AND'
                 );
 
                 $jobs = array_map('\Craigslist\WebUI::filterContent', $jobs );
@@ -101,7 +97,8 @@ class Api extends Database {
                         'title' => 'LIKE',
                         'description' => 'LIKE'
                     ],
-                    $limit
+                    $limit,
+                    'OR'
                 );
 
                 $jobs = array_map('\Craigslist\WebUI::filterContent', $jobs );
