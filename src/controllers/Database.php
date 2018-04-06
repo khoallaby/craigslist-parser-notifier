@@ -91,11 +91,11 @@ class Database {
 	 * @param array $where
 	 * @param array $compare
 	 */
-	private function where( array $where = array(), array $compare = array() ) {
+	private function where( array $where = array(), array $compare = array(), $cond = 'AND' ) {
 		if( !empty($where) ) {
 			foreach ( $where as $v => $k ) {
 				if ( isset( $compare[ $v ] ) )
-					$this->db->where( $v, $k, $compare[ $v ] );
+					$this->db->where( $v, $k, $compare[ $v ], $cond );
 				else
 					$this->db->where( $v, $k );
 			}
@@ -182,13 +182,14 @@ class Database {
 
 	public function getJobs( $where = array(), $compare = array(), $limit = 50 ) {
 		$this->db->join( 'cities c', 'j.city_id = c.city_id', 'LEFT' );
-		$this->where( $where, $compare );
+		$this->where( $where, $compare, 'OR' );
 		$this->db->orderBy( 'date', 'DESC' );
 		$jobs = $this->db->withTotalCount()->objectBuilder()->get(
 			'jobs j',
 			$limit,
 			'j.*, c.city_code, c.name as city_name'
 		);
+        var_dump($this->db->getLastQuery());
 		return $jobs;
 	}
 

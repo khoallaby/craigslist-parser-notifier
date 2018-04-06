@@ -83,9 +83,34 @@ class Api extends Database {
 
 
 			case 'search':
+			    $search = $params[1];
+			    $searchQuery = '%' . str_replace(' ', '%', urldecode($search)) . '%';
 
+                if( !isset($search) )
+                    return json_encode([]);
 
-				exit;
+                $limit = isset( $params[2] ) && is_numeric($params[2])? (int)$params[2] : 100;
+
+                $jobs = self::getInstance()->getJobs(
+                    [
+                        'title' => $searchQuery,
+                        'description' => $searchQuery
+                    ],
+                    [
+                        'title' => 'LIKE',
+                        'description' => 'LIKE'
+                    ],
+                    $limit
+                );
+
+                $jobs = array_map('\Craigslist\WebUI::filterContent', $jobs );
+                $json = array(
+                    'jobs' => $jobs,
+                    'status' => true
+                );
+
+                echo json_encode( $json );
+                break;
 
 			default:
 				break;
