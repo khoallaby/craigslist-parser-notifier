@@ -153,7 +153,7 @@ class Database {
 
 
 	public function getCityCodesByCountry( $country ) {
-		return $this->getCityCodes( array( 'r.name' => $country ) );
+		return $this->getCityCodes( array( 'r.name' => $country ), null, true );
 	}
 
 
