@@ -32,7 +32,7 @@ $args = array(
 
 $parser = new Craigslist\Parser( $args );
 
-if( $argv[1] ) {
+if( isset($argv[1]) ) {
     $allCityCodes = Craigslist\Database::getInstance()->getCityCodesByCountry( 'US' );
 #$cityCodes = Craigslist\Database::getInstance()->getCityCodesByState( 'CO' );
     $cityCodes = array_diff( $allCityCodes, $citiesOver10 );
